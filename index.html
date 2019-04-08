@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Snake</title>
+    </head>
+
+    <body>
+        <canvas id="theCanvas"></canvas>
+        <script>
+            const GRID_SIZE = 20;
+            const TILE_SIZE = 40;
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 3; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+        </script>
+        <script src="js/Position.js"></script>
+        <script src="js/GameElement.js"></script>
+        <script src="js/Player.js"></script>
+        <script src="js/DrawCanvas.js"></script>
+        <script src="js/Game.js"></script>
+        <script>
+            var cv = document.getElementById("theCanvas");
+            cv.width = cv.height = GRID_SIZE * TILE_SIZE;
+
+            var game = new Game(cv);
+
+            game.resetGame();
+
+            setInterval(this.playGame, 200);
+
+            function playGame() {
+                game.playGame();
+            }
+
+            cv.addEventListener('click', function () {
+                if (game.currentGameState == GameState.ENDGAME) {
+                    game.resetGame();
+                }
+            }, false);
+
+            window.onkeydown = function (evt) {
+                game.moveCharacter(evt.keyCode);
+            };
+        </script>
+    </body>
+
+</html>
