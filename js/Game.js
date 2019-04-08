@@ -11,9 +11,9 @@ const Direction = {
 }
 
 class Game {
-    constructor(canvas) {
+    constructor(canvas, nbPlayer) {
         this.currentGameState = GameState.PLAYING;
-        this.nbPlayer = 2;
+        this.nbPlayer = nbPlayer;
         this.drawController = new DrawCanvas(canvas, canvas.getContext("2d"), GRID_SIZE);
     }
 
@@ -122,7 +122,7 @@ class Game {
     }
 
     checkState() {
-        if (this.players.length < 2) {
+        if (this.players.length < this.nbPlayer) {
             this.currentGameState = GameState.ENDGAME;
         }
     }
@@ -157,6 +157,6 @@ class Game {
     }
 
     endGame() {
-        this.drawController.drawEndGame(this.players);
+        this.drawController.drawEndGame(this.players, this.nbPlayer);
     }
 }

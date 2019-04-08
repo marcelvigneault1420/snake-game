@@ -3,6 +3,13 @@ class DrawCanvas {
     constructor(cv, ctx) {
         this.cv = cv;
         this.ctx = ctx;
+
+        this.appleImg = new Image();
+        this.appleImg.src = "img/head.jpg";
+
+        this.fabi = new Image();
+        this.fabi.src = "img/fab_left.jpg";
+
     }
     drawBackground() {
         this.ctx.fillStyle = "#000";
@@ -10,11 +17,12 @@ class DrawCanvas {
     }
 
     drawApple(a) {
-        this.ctx.fillStyle = "#F00";
-        this.ctx.fillRect(a.pos.X * TILE_SIZE, a.pos.Y * TILE_SIZE, TILE_SIZE_DRAW, TILE_SIZE_DRAW);
+        //this.ctx.fillStyle = "#F00";
+        //this.ctx.fillRect(a.pos.X * TILE_SIZE, a.pos.Y * TILE_SIZE, TILE_SIZE_DRAW, TILE_SIZE_DRAW);
+        this.ctx.drawImage(this.appleImg, a.pos.X * TILE_SIZE, a.pos.Y * TILE_SIZE, TILE_SIZE_DRAW, TILE_SIZE_DRAW);
     }
 
-    drawEndGame(ps) {
+    drawEndGame(ps, nbPlayers) {
         this.drawBackground();
 
         this.ctx.font = (TILE_SIZE * 2) + "px Comic Sans MS";
@@ -25,7 +33,12 @@ class DrawCanvas {
         let text = "";
 
         if (ps.length == 0) {
-            text = "Draw"
+            if (nbPlayers > 1) {
+                text = "Draw"
+            } else {
+                text = "You lose!"
+            }
+
         } else if (ps.length == 1) {
             this.ctx.fillStyle = ps[0].color;
             text = ps[0].name + " win";
@@ -43,8 +56,13 @@ class DrawCanvas {
 
     drawPlayer(p) {
         p.tail.forEach(t => {
-            this.ctx.fillStyle = p.color;
-            this.ctx.fillRect(t.X * TILE_SIZE, t.Y * TILE_SIZE, TILE_SIZE_DRAW, TILE_SIZE_DRAW);
+            if (t.equals(p.pos) && p.currentDirection == Direction.LEFT) {
+                this.ctx.drawImage(this.fabi, t.X * TILE_SIZE, t.Y * TILE_SIZE, TILE_SIZE_DRAW, TILE_SIZE_DRAW);
+            } else {
+                this.ctx.fillStyle = p.color;
+                this.ctx.fillRect(t.X * TILE_SIZE, t.Y * TILE_SIZE, TILE_SIZE_DRAW, TILE_SIZE_DRAW);
+            }
+
         });
     }
 
