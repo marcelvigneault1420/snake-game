@@ -117,7 +117,7 @@ class Game {
         this.players = alivePlayers;
 
         if (tempRegenApple) {
-            this.apple.randomizePosition();
+            this.apple.setPosition(this.randomizePosition());
         }
     }
 
